@@ -94,7 +94,7 @@ function createModel() {
 
 function startGame() {
   x_pacman = canvas.width / 2;
-  y_pacman = canvas.width / 2;
+  y_pacman = canvas.height / 2;
   time_index = 0;
   score = 0;
   pacman_model = new Array();
@@ -104,6 +104,7 @@ function startGame() {
 
   createModel();
   createSnackPellets();
+  createWalls();
 
 }
 
@@ -140,20 +141,75 @@ function keyEvent( event ) {
 // ----------------------------------------------
 // Task 3: Todo - put JS code below.
 // ----------------------------------------------
+function draw() {
+    document.getElementById("score").innerText = score;
+    context2d.clearRect(0, 0, canvas.width, canvas.height);
+    context2d.fillStyle = "black";
+    context2d.strokeStyle = "black";
+    context2d.save();
 
+    const remaining_pellets = [];
+    for (const pellet of snack_pellets) {
+        const distance = hypotenus(x_pacman - pellet.x, y_pacman - pellet.y);
+        if (distance < radius / 2) {
+            score += 10;
+        } else {
+            remaining_pellets.push(pellet);
+        }
+    }
+    snack_pellets = remaining_pellets;
 
+    for (const pellet of snack_pellets) {
+        context2d.fill(pellet.circle);
+    }
+    context2d.fillStyle = "blue";
+    for (const wall of walls) {
+        context2d.fillRect(wall.x, wall.y, wall.width, wall.height);
+    }
+    x_pacman = Math.max(radius, Math.min(canvas.width - radius, x_pacman));
+    y_pacman = Math.max(radius, Math.min(canvas.height - radius, y_pacman));
 
+    context2d.translate(x_pacman, y_pacman);
 
+    if (key === "ArrowUp") {
+        context2d.rotate(-Math.PI / 2);
+    } else if (key === "ArrowDown") {
+        context2d.rotate(Math.PI / 2);
+    } else if (key === "ArrowLeft") {
+        context2d.rotate(Math.PI);
+    }
 
+    if (!paused) {
+        let next_x = x_pacman;
+        let next_y = y_pacman;
 
+        if (key === "ArrowRight") {
+            next_x += displacement;
+        } else if (key === "ArrowLeft") {
+            next_x -= displacement;
+        } else if (key === "ArrowUp") {
+            next_y -= displacement;
+        } else if (key === "ArrowDown") {
+            next_y += displacement;
+        }
 
+        if (!collidesWithWall(next_x, next_y)) {
+            x_pacman = next_x;
+            y_pacman = next_y;
+        }
+    }
 
+    context2d.fillStyle = "yellow";
 
+    context2d.fill(pacman_model[time_index]);
+    context2d.stroke(pacman_model[time_index]);
 
-
-
-
-
+    context2d.restore();
+    time_index++;
+    if (time_index >= 4) {
+        time_index = 0;
+    }
+}
 
 // ----------------------------------------------
 // Task 4: Todo - put JS code below.
