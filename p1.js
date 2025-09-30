@@ -122,7 +122,7 @@ function keyEvent( event ) {
   else if (event.key === " ") {
       paused = !paused;
   }
-  
+
   else if (!paused) {
       if (
           event.key === "ArrowUp" ||
@@ -133,11 +133,6 @@ function keyEvent( event ) {
           key = event.key;
       }
   }
-
-
-
-
-
 
 }
 
