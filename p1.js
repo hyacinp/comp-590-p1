@@ -109,20 +109,30 @@ function startGame() {
 
 
 
-
-
-
-
-
-
-
 // ----------------------------------------------
 // Task 2: Todo - modify the JS code below.
 // ----------------------------------------------
 document.addEventListener( "keyup", keyEvent );
 
 function keyEvent( event ) {
+  if (event.key === "s") {
+    startGame();
+  }
+
+  else if (event.key === " ") {
+      paused = !paused;
+  }
   
+  else if (!paused) {
+      if (
+          event.key === "ArrowUp" ||
+          event.key === "ArrowDown" ||
+          event.key === "ArrowLeft" ||
+          event.key === "ArrowRight"
+      ) {
+          key = event.key;
+      }
+  }
 
 
 
