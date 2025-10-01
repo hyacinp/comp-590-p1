@@ -120,7 +120,7 @@ function keyEvent( event ) {
     startGame();
   }
 
-  if (event.key === " ") {
+  else if (event.key === " ") {
       paused = !paused;
   } else if (!paused) {
       if (
@@ -131,10 +131,6 @@ function keyEvent( event ) {
       ) {
           key = event.key;
       }
-  }
-  if (event.key.startsWith("Arrow")) {
-    key = event.key;
-    paused = false; 
   }
 
 }
