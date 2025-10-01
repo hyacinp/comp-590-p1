@@ -120,11 +120,9 @@ function keyEvent( event ) {
     startGame();
   }
 
-  else if (event.key === " ") {
+  if (event.key === " ") {
       paused = !paused;
-  }
-
-  else if (!paused) {
+  } else if (!paused) {
       if (
           event.key === "ArrowUp" ||
           event.key === "ArrowDown" ||
@@ -133,6 +131,10 @@ function keyEvent( event ) {
       ) {
           key = event.key;
       }
+  }
+  if (event.key.startsWith("Arrow")) {
+    key = event.key;
+    paused = false; 
   }
 
 }
